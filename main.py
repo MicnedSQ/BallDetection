@@ -58,6 +58,11 @@ def detect_red_balls(frame, hsv):
 def main():
     cap = cv2.VideoCapture('Data/video_3.mp4')
 
+    frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+    frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    fps = cap.get(cv2.CAP_PROP_FPS)
+
+    out = cv2.VideoWriter('Result_video.avi', cv2.VideoWriter_fourcc(*'XVID'), fps, (frame_width, frame_height))
     if cap.isOpened():
         while True:
             ret, frame = cap.read()
@@ -69,6 +74,8 @@ def main():
             
             detect_yellow_balls(frame, hsv)
             detect_red_balls(frame, hsv)
+
+            out.write(frame)
 
             cv2.imshow('Video Frame', frame)
             
